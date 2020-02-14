@@ -1,0 +1,85 @@
+# LCARS colour scheme
+BLACK = 0, 0, 0
+WHITE = 255, 255, 255
+
+ORANGE = 255, 153, 0
+PURPLE = 204, 153, 204
+GREY_BLUE = 153, 153, 204
+RED_BROWN = 204, 102, 102
+BEIGE = 255, 204, 153
+BLUE = 153, 153, 255
+PEACH = 255, 153, 102
+PINK = 204, 102, 153
+
+#medical ST:X
+BLUE1 = 10, 70, 238
+BLUE2 = 55, 134, 255
+BLUE3 = 75, 178, 255
+BLUE4 = 135, 238, 255
+BLUE5 = 0, 0, 255
+BLUE6 = 153, 204, 255
+BLUE7 = 51, 153, 255
+BLUE8 = 0, 158, 206
+
+#redalert ST:X
+RED1 = 158,153,147
+RED2 = 76,75,71
+RED3 = 217,213,184
+RED4 = 245,23,60
+RED5 = 255,0,0
+RED6 = 163,14,36
+RED7 = 191,45,66
+RED8 = 91,5,18
+
+#com ST:X
+COM1 = 39, 201, 244
+COM2 = 247, 189, 90
+COM3 = 32,120,140
+COM4 = 36, 190, 178
+
+#Odyssey - normal
+nActive=151,195,225
+nLC2=74,114,202
+nLC1=51,93,167
+nFrame=35,80,181
+nDC1=19,61,135
+nOffline=77,77,77
+OdyN=(nActive,nLC2,nLC1,nFrame,nDC1)
+
+#Odyssey - Grey
+gActive=204,204,204
+gLC2=128,128,128
+gLC1=128,128,128
+gFrame=128,128,128
+gDC1=128,128,128
+gOffline=77,77,77
+OdyG=(gActive,gLC2,gLC1,gFrame,gDC1)
+
+#Odyssey - Blue Alert
+bActive=141,155,255
+bLC2=65,89,255
+bLC1=0,102,255
+bFrame=0,51,255
+bDC1=0,0,204
+bOffline=77,77,77
+OdyB=(bActive,bLC2,bLC1,bFrame,bDC1)
+
+#Odyssey - Yellow Alert
+yActive=255,217,102
+yLC2=255,169,15
+yLC1=204,135,12
+yFrame=153,101,9
+yDC1=102,68,6
+yOffline=77,77,77
+OdyY=(yActive,yLC2,yLC1,yFrame,yDC1)
+
+#Odyssey - Red Alert
+rActive=255,145,145
+rLC2=255,0,0
+rLC1=204,0,0
+rFrame=153,0,0
+rDC1=102,0,0
+rOffline=77,77,77
+OdyR=(rActive,rLC2,rLC1,rFrame,rDC1)
+
+
