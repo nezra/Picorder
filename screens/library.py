@@ -7,7 +7,7 @@ from ui.widgets.screen import LcarsScreen
 from datasources.thread_num import get_thread
 
 import config
-from ui.widgets.red_alert import red_alert
+from ui.widgets.alert import red_alert
 
 class ScreenLibrary(LcarsScreen):
     def setup(self, all_sprites):

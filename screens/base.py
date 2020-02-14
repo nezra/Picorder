@@ -12,7 +12,7 @@ import config
 #1-wire communication
 from w1thermsensor import W1ThermSensor
 
-from ui.widgets.red_alert import red_alert
+from ui.widgets.alert import red_alert
 
 class ScreenBase(LcarsScreen):
     def setup(self, all_sprites):
