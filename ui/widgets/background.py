@@ -39,6 +39,7 @@ class LcarsImageBlock(LcarsWidget):
         image = pygame.Surface(rectSize).convert_alpha()
         image.fill(colour)
         self.colour = colour
+        self.currcolour=colour
         self.image = image
         if text != None:
             font = Font(config.TTFFONT, int(config.TTFFONTBASE*config.FONTSCALE))
@@ -50,9 +51,7 @@ class LcarsImageBlock(LcarsWidget):
         LcarsWidget.__init__(self, colour, pos, size, handler)
         self.applyColour(colour)
         
-        
-    def changeColour(self, newColour,changeState=False):
-        if changeState==False:
-            self.applyColour(newColour, origcolour=self.colour)
-        else:
-            self.applyColour(self.colour,origcolour=newColour)
+    def changeColour(self, newColour):
+        if self.currcolour!=newColour:
+            self.applyColour(newColour,self.currcolour)
+            self.currcolour=newColour

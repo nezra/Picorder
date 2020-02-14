@@ -101,7 +101,7 @@ class ScreenLibrary(LcarsScreen):
             if temp >= 45:
                 self.coretemp.changeColour(colours.RED4)
             else:
-                self.coretemp.changeColour(colours.RED4,changeState=True)
+                self.coretemp.changeColour(self.coretemp.colour)
                 
             ### cpu load thread data
             newtext=get_thread()

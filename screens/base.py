@@ -111,18 +111,20 @@ class ScreenBase(LcarsScreen):
         all_sprites.add(LcarsButton(colours.BLUE5, (25, 1706), "LOGOUT", self.logoutHandler), layer=3)
 
         self.ui_screen_logout = all_sprites.get_sprites_from_layer(3)
+        
+        self.ra1=red_alert(self.ui_screen_buttons[6],self.ui_screen_info)
 
-	### sound effects
+    	### sound effects
         self.beep1 = Sound("assets/audio/panel/201.wav")
         #Sound("assets/audio/panel/220.wav").play()
 
         ############ End base screen #############
-      
+       
 
 
     def update(self, screenSurface, fpsClock):
         if pygame.time.get_ticks() - self.lastClockUpdate > 500:
-            red_alert(self.ui_screen_buttons[6],self.ui_screen_info)
+            self.ra1.cycle()
             
             self.stardate.setText("STAR DATE {}".format(datetime.now().strftime("%d%m.%y %H:%M:%S")))
             self.lastClockUpdate = pygame.time.get_ticks()

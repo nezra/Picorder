@@ -18,8 +18,6 @@ class LcarsElbow(LcarsWidget):
     
     def __init__(self, colour, style, pos, handler=None):
         image = pygame.image.load("assets/CornerLarge2.png").convert_alpha()
-        # alpha=255
-        # image.fill((255, 255, 255, alpha), None, pygame.BLEND_RGBA_MULT)
         if (style == LcarsElbow.STYLE_BOTTOM_LEFT):
             image = pygame.transform.flip(image, False, True)
         elif (style == LcarsElbow.STYLE_BOTTOM_RIGHT):
@@ -28,16 +26,16 @@ class LcarsElbow(LcarsWidget):
             image = pygame.transform.flip(image, True, False)
         self.image = image
         self.colour=colour
+        self.currcolour=colour
         size = (image.get_rect().width, image.get_rect().height)
         LcarsWidget.__init__(self, colour, pos, size, handler)
-        #pygame.transform.threshold(self.image,self.image,(255,255,255),(0,0,0,0),colour,1,None,True)
         self.applyColour(colour)
 
-    def changeColour(self, newColour,changeState=False):
-        if changeState==False:
-            self.applyColour(newColour, origcolour=self.colour)
-        else:
-            self.applyColour(self.colour,origcolour=newColour)
+    def changeColour(self, newColour):
+        if self.currcolour!=newColour:
+            self.applyColour(newColour,self.currcolour)
+            self.currcolour=newColour
+
 
 class LcarsTab(LcarsWidget):
     """Tab widget (like radio button) - not currently used nor implemented"""
@@ -53,16 +51,16 @@ class LcarsTab(LcarsWidget):
         
         size = (image.get_rect().width, image.get_rect().height)
         self.colour = colour
+        self.currcolour=colour
         self.image = image
         self.togglevalue=False
         LcarsWidget.__init__(self, colour, pos, size, handler)
         self.applyColour(colour)
 
-    def changeColour(self, newColour,changeState=False):
-        if changeState==False:
-            self.applyColour(newColour, origcolour=self.colour)
-        else:
-            self.applyColour(self.colour,origcolour=newColour)
+    def changeColour(self, newColour):
+        if self.currcolour!=newColour:
+            self.applyColour(newColour,self.currcolour)
+            self.currcolour=newColour
 
     def get_state(self):
         return self.togglevalue
@@ -82,11 +80,6 @@ class LcarsButton(LcarsWidget):
         self.colour = colour
         self.image = image
         self.togglevalue=False
-        #font = Font("assets/swiss911.ttf", 59)
-        #font = Font("assets/Swiss721NarrowSWA.ttf",38)
-        #font = Font("assets/okudad373.ttf",66)
-        #font = Font("assets/Nova_Light_Ultra.ttf",70)
-        #font = Font("assets/Context_Ultra_Condensed.ttf",int(68.0 * textSize))
         font=Font(fontFace,int(50.0 * textSize))
         textImage = font.render(text, False, colours.BLACK)
         image.blit(textImage, 
@@ -100,29 +93,21 @@ class LcarsButton(LcarsWidget):
     
     def handleEvent(self, event, clock):
         if (event.type == MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos) and self.visible == True):
-            if self.image.get_at((int(self.image.get_rect().height/2),1))[:3] == config.RACOLOUR:
-                self.applyColour(colours.WHITE,origcolour=config.RACOLOUR)
-                self.currcolour=config.RACOLOUR
-            else:
-                self.applyColour(colours.WHITE,origcolour=self.colour)
-                self.currcolour=self.colour
+            if self.currcolour!=colours.WHITE:
+                self.applyColour(colours.WHITE,self.currcolour)
             self.highlighted = True
             self.beep.play()
 
         if (event.type == MOUSEBUTTONUP and self.highlighted and self.visible == True):
-            if self.currcolour==config.RACOLOUR:
-                self.applyColour(config.RACOLOUR)
-            else:
-                self.applyColour(self.colour)
+            self.applyColour(self.currcolour,colours.WHITE)
             self.togglevalue = not self.togglevalue
            
         return LcarsWidget.handleEvent(self, event, clock)
     
-    def changeColour(self, newColour,changeState=False):
-        if changeState==False:
-            self.applyColour(newColour, origcolour=self.colour)
-        else:
-            self.applyColour(self.colour,origcolour=newColour)
+    def changeColour(self, newColour):
+        if self.currcolour!=newColour:
+            self.applyColour(newColour,self.currcolour)
+            self.currcolour=newColour
     
     def get_state(self):
         return self.togglevalue
@@ -132,12 +117,12 @@ class LcarsText(LcarsWidget):
 
     def __init__(self, colour, pos, message, size=1.0, background=None, handler=None,fontFace="assets/OpenSansCondensed-Light.ttf"):
         self.colour = colour
+        self.currcolour=colour
         self.background = background
-        #self.font = Font("assets/swiss911.ttf", int(59.0 * size))
-        #self.font = Font("assets/Context_Ultra_Condensed.ttf", int(68.0 * size))
+
         self.font=Font(fontFace,int(50.0 * size))        
         self.renderText(message)
-        # center the text if needed 
+        # center the text if needed 960 is based on total screen resolution. needs fix
         if (pos[1] < 0):
             pos = (pos[0], 960 - self.image.get_rect().width / 2)
             
@@ -152,11 +137,10 @@ class LcarsText(LcarsWidget):
     def setText(self, newText):
         self.renderText(newText)
         
-    def changeColour(self, newColour,changeState=False):
-        if changeState==False:
-            self.applyColour(newColour, origcolour=self.colour)
-        else:
-            self.applyColour(self.colour,origcolour=newColour)
+    def changeColour(self, newColour):
+        if self.currcolour!=newColour:
+            self.applyColour(newColour,self.currcolour)
+            self.currcolour=newColour
             
 class LcarsBlockLarge(LcarsButton):
     """Left navigation block - large version"""
@@ -165,12 +149,10 @@ class LcarsBlockLarge(LcarsButton):
         size = (243, 331)
         LcarsButton.__init__(self, colour, pos, text, handler, size,textSize,fontFace)
 
-    def changeColour(self, newColour,changeState=False):
-        self.colour = colour
-        if changeState==False:
-            self.applyColour(newColour, origcolour=self.colour)
-        else:
-            self.applyColour(self.colour,origcolour=newColour)
+    def changeColour(self, newColour):
+        if self.currcolour!=newColour:
+            self.applyColour(newColour,self.currcolour)
+            self.currcolour=newColour
 
 class LcarsBlockMedium(LcarsButton):
     """Left navigation block - medium version"""
@@ -179,12 +161,10 @@ class LcarsBlockMedium(LcarsButton):
         size = (243, 140)
         LcarsButton.__init__(self, colour, pos, text, handler, size,textSize,fontFace)
     
-    def changeColour(self, newColour,changeState=False):
-        self.colour = colour
-        if changeState==False:
-            self.applyColour(newColour, origcolour=self.colour)
-        else:
-            self.applyColour(self.colour,origcolour=newColour)
+    def changeColour(self, newColour):
+        if self.currcolour!=newColour:
+            self.applyColour(newColour,self.currcolour)
+            self.currcolour=newColour
 
 class LcarsBlockSmall(LcarsButton):
     """Left navigation block - small version"""
@@ -194,9 +174,7 @@ class LcarsBlockSmall(LcarsButton):
         size = (243, 77)
         LcarsButton.__init__(self, colour, pos, text, handler, size, textSize,fontFace)
 
-    
-    def changeColour(self, newColour,changeState=False):
-        if changeState==False:
-            self.applyColour(newColour, origcolour=self.colour)
-        else:
-            self.applyColour(self.colour,origcolour=newColour)
+    def changeColour(self, newColour):
+        if self.currcolour!=newColour:
+            self.applyColour(newColour,self.currcolour)
+            self.currcolour=newColour
