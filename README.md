@@ -3,10 +3,10 @@ Lcars interface for RPI based Tricorder
 
 Python3 based.
 
-Required dependencies
-pillow
-psutil
-pygame
+Required dependencies <br>
+pillow <br>
+psutil <br>
+pygame <br>
 
-optional:
+optional:<br>
 w1thermsensor
