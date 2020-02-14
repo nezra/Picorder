@@ -1,5 +1,9 @@
 # Picorder
-Lcars interface for RPI based Tricorder
+Lcars interface for RPI based Tricorder.
+
+Based on work here:
+
+https://github.com/tobykurien/rpi_lcars
 
 Python3 based.
 
