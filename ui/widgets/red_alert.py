@@ -11,6 +11,7 @@ class red_alert():
         self.ui_list=ui_list
         self.stallFrames=stallframes
         self.totalFrames=len(self.ui_list)+len(self.stallframes)
+        #test
     
     def cycle(self):
         if self.trigger.get_state()==True:
