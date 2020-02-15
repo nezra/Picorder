@@ -10,7 +10,7 @@ from datasources.network import get_ip_address_string
 import config
 
 #1-wire communication
-from w1thermsensor import W1ThermSensor
+#from w1thermsensor import W1ThermSensor
 
 from ui.widgets.alert import red_alert
 
