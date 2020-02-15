@@ -6,6 +6,7 @@ class LcarsGifImage(LcarsWidget):
     def __init__(self, imagefilename, pos, duration=-1):
         self.image = GIFImage(imagefilename, duration)
         self.pos = pos
+        self.colour=(0,0,0)
         size = (self.image.get_rect().width, self.image.get_rect().height)
         LcarsWidget.__init__(self, None, pos, size)
         

@@ -8,11 +8,12 @@ from ui.widgets.screen import LcarsScreen
 from datasources.network import get_ip_address_string
 
 import config
+#from ui import colours
 
 #1-wire communication
 #from w1thermsensor import W1ThermSensor
 
-from ui.widgets.alert import red_alert
+from ui.widgets.alert import red_alert,inout_alert,blink_alert
 
 class ScreenBase(LcarsScreen):
     def setup(self, all_sprites):
@@ -74,7 +75,7 @@ class ScreenBase(LcarsScreen):
 
         ### Group UI 
 
-        self.ui_screen_info = all_sprites.get_sprites_from_layer(1)
+
 
         
         ###
@@ -92,7 +93,7 @@ class ScreenBase(LcarsScreen):
         all_sprites.add(LcarsTab(colours.COM1, 2, (419, 288),self.libraryHandler), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (502, 39), "TOGGLE"), layer=2)
         all_sprites.add(LcarsTab(colours.COM2, 2, (502, 288)), layer=2)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (585, 39), "ITEM"), layer=2)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (585, 39), "TOGGLE 2"), layer=2)
         all_sprites.add(LcarsTab(colours.COM2, 2, (585, 288)), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (668, 39), "ITEM"), layer=2)
         all_sprites.add(LcarsTab(colours.COM2, 2, (668, 288)), layer=2)
@@ -103,16 +104,22 @@ class ScreenBase(LcarsScreen):
 
         all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(917, 39), rectSize=(243, 58)), layer=2) ### buffer to fill out the column
 
-        self.ui_screen_buttons = all_sprites.get_sprites_from_layer(2)
+
 
         ###
 
         ### buttons
         all_sprites.add(LcarsButton(colours.BLUE5, (25, 1706), "LOGOUT", self.logoutHandler), layer=3)
-
+        
+        self.ui_screen_info = all_sprites.get_sprites_from_layer(1)        
+        self.ui_screen_buttons = all_sprites.get_sprites_from_layer(2)
         self.ui_screen_logout = all_sprites.get_sprites_from_layer(3)
+        self.ui_screen_test = self.ui_screen_info
+        self.ui_screen_test.extend(self.ui_screen_buttons)
+        self.ui_screen_test.extend(self.ui_screen_logout)
         
         self.ra1=red_alert(self.ui_screen_buttons[6],self.ui_screen_info)
+        self.ra2=inout_alert(self.ui_screen_buttons[8],self.ui_screen_test,colours.OdyY)
 
     	### sound effects
         self.beep1 = Sound("assets/audio/panel/201.wav")
@@ -124,7 +131,8 @@ class ScreenBase(LcarsScreen):
 
     def update(self, screenSurface, fpsClock):
         if pygame.time.get_ticks() - self.lastClockUpdate > 500:
-            self.ra1.cycle()
+            self.ra1.ra_cycle()
+            self.ra2.inout_cycle()
             
             self.stardate.setText("STAR DATE {}".format(datetime.now().strftime("%d%m.%y %H:%M:%S")))
             self.lastClockUpdate = pygame.time.get_ticks()

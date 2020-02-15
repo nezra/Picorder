@@ -3,11 +3,12 @@ from ui.widgets.background import * #LcarsBackgroundImage, LcarsImage
 from ui.widgets.gifimage import LcarsGifImage
 from ui.widgets.lcars_widgets import *
 from ui.widgets.screen import LcarsScreen
+from ui.widgets.alert import red_alert,blink_alert, inout_alert
 
 from datasources.thread_num import get_thread
 
 import config
-from ui.widgets.alert import red_alert
+
 
 class ScreenLibrary(LcarsScreen):
     def setup(self, all_sprites):
@@ -30,21 +31,21 @@ class ScreenLibrary(LcarsScreen):
         all_sprites.add(LcarsImageBlock(colours.OdyN[3], pos=(1037, 0), rectSize=(400, 43)), layer=1)
         all_sprites.add(LcarsElbow(colours.OdyN[3], 2, (1008, 400)), layer=1)
         all_sprites.add(LcarsImageBlock(colours.OdyN[3], pos=(937, 433), rectSize=(243, 71)), layer=1)
-        all_sprites.add(LcarsBlockSmall(colours.OdyN[1], (854, 433), "BASE",self.baseHandler, textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=1)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (771, 433), "ITEM",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=1)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (688, 433), "ITEM",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=1)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (605, 433), "ITEM",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=1)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (522, 433), "ITEM",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=1)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (439, 433), "ITEM",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=1)
+        all_sprites.add(LcarsBlockSmall(colours.OdyN[1], (854, 433), "BASE",self.baseHandler, textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (771, 433), "FADE BUTTON",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (688, 433), "BLINK",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (605, 433), "FADE YELLOW",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (522, 433), "RED ALERT",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (439, 433), "ITEM",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
         self.coretemp = LcarsBlockSmall(colours.nOffline, (356, 433), "CORE TEMP",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf")
-        all_sprites.add(self.coretemp, layer=1)
+        all_sprites.add(self.coretemp, layer=11)
         
-        all_sprites.add(LcarsElbow(colours.OdyN[3], 1, (278, 433)), layer=1)
-        all_sprites.add(LcarsImageBlock(colours.OdyN[3], pos=(278, 709), rectSize=(1272, 43)), layer=1)        
+        all_sprites.add(LcarsElbow(colours.OdyN[3], 1, (278, 433)), layer=12)
+        all_sprites.add(LcarsImageBlock(colours.OdyN[3], pos=(278, 709), rectSize=(1272, 43)), layer=12)        
 
 
         ### buttons
-        all_sprites.add(LcarsButton(colours.OdyN[1], (25, 1675), "TOGGLE", textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
+        all_sprites.add(LcarsButton(colours.OdyN[1], (25, 1675), "NOTHING", textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
         all_sprites.add(LcarsButton(colours.OdyN[1], (127, 1675), "NOTHING", textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
         all_sprites.add(LcarsButton(colours.OdyN[1], (25, 1432), "NOTHING", textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
         all_sprites.add(LcarsButton(colours.OdyN[1], (127, 1432), "LOGOUT", self.logoutHandler ,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
@@ -67,10 +68,16 @@ class ScreenLibrary(LcarsScreen):
         
         ### Group UI 
 
-        self.ui_screen_info = all_sprites.get_sprites_from_layer(1)
+        self.ui_screen_bottom_frame = all_sprites.get_sprites_from_layer(1)
         self.ui_screen_text = all_sprites.get_sprites_from_layer(2)
         self.ui_screen_buttons = all_sprites.get_sprites_from_layer(3)
-        self.ui_screen_base = all_sprites.get_sprites_from_layer(10)
+        self.ui_screen_side_buttons = all_sprites.get_sprites_from_layer(11)
+        self.ui_screen_middle_bar = all_sprites.get_sprites_from_layer(12)
+        
+        self.ui_screen_top_frame = all_sprites.get_sprites_from_layer(10)
+        self.ui_screen_bottom= self.ui_screen_bottom_frame
+        self.ui_screen_bottom.extend(self.ui_screen_side_buttons)
+        self.ui_screen_bottom.extend(self.ui_screen_middle_bar)
         ###
 
 	    ### sound effects
@@ -78,8 +85,11 @@ class ScreenLibrary(LcarsScreen):
         #Sound("assets/audio/panel/220.wav").play()
         
         ### Red alert setup
-        self.ra1=red_alert(self.ui_screen_buttons[0],self.ui_screen_info)
-        self.ra2=red_alert(self.ui_screen_buttons[0],self.ui_screen_base)
+        self.ra1=red_alert(self.ui_screen_side_buttons[4],self.ui_screen_bottom)
+        self.ra2=red_alert(self.ui_screen_side_buttons[4],self.ui_screen_top_frame,(3,4,5,6,7,8,9))
+        self.ra3=blink_alert(self.ui_screen_side_buttons[2],self.ui_screen_side_buttons,(colours.RED4,(15,15,15)))
+        self.ra4=inout_alert(self.ui_screen_side_buttons[3],self.ui_screen_buttons,colours.OdyY)
+        self.ra5=blink_alert(self.ui_screen_side_buttons[1],self.coretemp,colours.OdyB)
 
         ############ End base screen #############
       
@@ -90,18 +100,21 @@ class ScreenLibrary(LcarsScreen):
 
             ### Red alert ##
 
-            self.ra1.cycle()
-            self.ra2.cycle()
+            self.ra1.ra_cycle()
+            self.ra2.ra_cycle()
+            self.ra3.blink_cycle()
+            self.ra4.inout_cycle()
+            self.ra5.blink_cycle()
             #red_alert(self.ui_screen_buttons[0],self.ui_screen_info)
             #red_alert(self.ui_screen_buttons[0],self.ui_screen_base)            
 
             ### Thermal switch
-            tFile=open('/sys/class/thermal/thermal_zone0/temp')
-            temp=float(tFile.read())/1000
-            if temp >= 45:
-                self.coretemp.changeColour(colours.RED4)
-            else:
-                self.coretemp.changeColour(self.coretemp.colour)
+            #tFile=open('/sys/class/thermal/thermal_zone0/temp')
+            #temp=float(tFile.read())/1000
+            #if temp >= 45:
+            #    self.coretemp.changeColour(colours.RED4)
+            #else:
+            #    self.coretemp.changeColour(self.coretemp.colour)
                 
             ### cpu load thread data
             newtext=get_thread()

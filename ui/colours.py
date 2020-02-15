@@ -62,7 +62,7 @@ bLC1=0,102,255
 bFrame=0,51,255
 bDC1=0,0,204
 bOffline=77,77,77
-OdyB=(bActive,bLC2,bLC1,bFrame,bDC1)
+OdyB=(bLC2,bLC1,bFrame,bDC1)
 
 #Odyssey - Yellow Alert
 yActive=255,217,102
@@ -80,6 +80,6 @@ rLC1=204,0,0
 rFrame=153,0,0
 rDC1=102,0,0
 rOffline=77,77,77
-OdyR=(rActive,rLC2,rLC1,rFrame,rDC1)
+OdyR=(rLC2,rLC1,rFrame,rDC1)
 
 
