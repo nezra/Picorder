@@ -10,9 +10,17 @@ class inout_alert():
         self.state=0
         self.cycle=0
         self.cycleDir=0
+        if isinstance(self.trigger,bool):
+            self.triggervalue=self.trigger
+        
+    def inout_trigger(self,trigger):
+        self.triggervalue = trigger
         
     def inout_cycle(self):
-        if self.trigger.get_state()==True:
+        if not isinstance(self.trigger,bool):
+            self.triggervalue=self.trigger.get_state()
+            
+        if self.triggervalue==True:
             for sprite in self.ui_list:
                 if sprite.visible==True:
                     sprite.changeColour(self.palette[self.cycle])
@@ -41,6 +49,7 @@ class red_alert():
         self.frameCycle=0
         self.RAcycle=-1
         self.trigger=trigger
+        
         if stallframes != None:
             totalFrames=len(ui_list)+len(stallframes)
             tempframes=[]
@@ -64,11 +73,19 @@ class red_alert():
             
         else:
             self.ui_list=ui_list
+            
+        if isinstance(self.trigger,bool):
+            self.triggervalue=self.trigger
         
+    def ra_trigger(self,trigger):
+        self.triggervalue = trigger        
         
 
     def ra_cycle(self):
-        if self.trigger.get_state()==True:
+        if not isinstance(self.trigger,bool):
+            self.triggervalue=self.trigger.get_state()
+            
+        if self.triggervalue==True:
             for sprite in self.ui_list:
                 if sprite.visible==True:
                     sprite.changeColour(config.RACOLOUR)
@@ -101,11 +118,17 @@ class blink_alert():
         self.cycle=0
         self.cycleDir=0
         self.ui_list=ui_list
-        print(type(self.trigger))                
+        if isinstance(self.trigger,bool):
+            self.triggervalue=self.trigger
+        
+    def blink_trigger(self,trigger):
+        self.triggervalue = trigger
         
     def blink_cycle(self):
-        #isinstance(ui_list,list) check to see if the passed variable is a list        
-        if self.trigger.get_state()==True:
+        if not isinstance(self.trigger,bool):
+            self.triggervalue=self.trigger.get_state()
+
+        if self.triggervalue==True:
             if isinstance(self.ui_list,list):
                 for sprite in self.ui_list:
                     if sprite.visible==True:

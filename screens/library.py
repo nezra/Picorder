@@ -89,7 +89,8 @@ class ScreenLibrary(LcarsScreen):
         self.ra2=red_alert(self.ui_screen_side_buttons[4],self.ui_screen_top_frame,(3,4,5,6,7,8,9))
         self.ra3=blink_alert(self.ui_screen_side_buttons[2],self.ui_screen_side_buttons,(colours.RED4,(15,15,15)))
         self.ra4=inout_alert(self.ui_screen_side_buttons[3],self.ui_screen_buttons,colours.OdyY)
-        self.ra5=blink_alert(self.ui_screen_side_buttons[1],self.coretemp,colours.OdyB)
+        self.ra5=blink_alert(self.ui_screen_side_buttons[1],self.ui_screen_side_buttons[5],colours.OdyB)
+        self.ra6=blink_alert(False,self.coretemp,(colours.RED4,(15,15,15)))
 
         ############ End base screen #############
       
@@ -105,16 +106,15 @@ class ScreenLibrary(LcarsScreen):
             self.ra3.blink_cycle()
             self.ra4.inout_cycle()
             self.ra5.blink_cycle()
-            #red_alert(self.ui_screen_buttons[0],self.ui_screen_info)
-            #red_alert(self.ui_screen_buttons[0],self.ui_screen_base)            
+            self.ra6.blink_cycle()           
 
             ### Thermal switch
-            #tFile=open('/sys/class/thermal/thermal_zone0/temp')
-            #temp=float(tFile.read())/1000
-            #if temp >= 45:
-            #    self.coretemp.changeColour(colours.RED4)
-            #else:
-            #    self.coretemp.changeColour(self.coretemp.colour)
+            tFile=open('/sys/class/thermal/thermal_zone0/temp')
+            temp=float(tFile.read())/1000
+            if temp >= 45:
+                self.ra6.blink_trigger(True)
+            else:
+                self.ra6.blink_trigger(False)
                 
             ### cpu load thread data
             newtext=get_thread()
