@@ -26,19 +26,20 @@ class ScreenMovie(LcarsScreen):
         all_sprites.add(LcarsBackgroundImage(),layer=0)
         self.ui_screen_base = all_sprites.get_sprites_from_layer(0)
         
-        all_sprites.add(LcarsTab(colours.COM2, 1, (50, 50)), layer=1)
-        all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(50, 116), rectSize=(1688, 77)), layer=1)
-        all_sprites.add(LcarsTab(colours.COM2, 2, (50, 1810)), layer=1)
+        all_sprites.add(LcarsTab(colours.COM2, 3, (50, 80)), layer=1)
+        all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(50, 115), rectSize=(1688, 38)), layer=1)
+        all_sprites.add(LcarsTab(colours.COM2, 4, (50, 1810)), layer=1)
         
         all_sprites.add(LcarsTab(colours.COM2, 1, (953, 50)), layer=1)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 116), "REWIND",self.rewHandler), layer=2)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 365), "PLAY",self.playHandler), layer=2)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 614), "F F",self.ffHandler), layer=2)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 863), "STOP",self.stopHandler), layer=2)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 1112), "BASE",self.mainHandler), layer=2)
+        all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(953, 1361), rectSize=(443, 77)), layer=1)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 116), "REWIND",self.rewHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 365), "PLAY",self.playHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 614), "F F",self.ffHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 863), "STOP",self.stopHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 1112), "BASE",self.mainHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(953, 1361), rectSize=(443, 77)), layer=1)
         all_sprites.add(LcarsTab(colours.COM2, 2, (953, 1810)), layer=1)     
-        self.VIDEO_1_PATH = "./LittleShopofHorrors1960Color.mp4"
+        self.VIDEO_1_PATH = "./assets/video/LittleShopofHorrors1960Color.mp4"
         self.playSpeed = 1
     	### sound effects
         self.beep1 = Sound("assets/audio/panel/201.wav")
@@ -68,7 +69,7 @@ class ScreenMovie(LcarsScreen):
         except:
             self.player = OMXPlayer(self.VIDEO_1_PATH, dbus_name='org.mpris.MediaPlayer2.omxplayer1')
             self.player.set_aspect_mode('stretch')
-            self.player.set_video_pos(116, 133, 1804, 947)
+            self.player.set_video_pos(116, 94, 1804, 947)
             self.player.set_alpha(255)
             
     def rewHandler(self,item,event,clock):
@@ -96,7 +97,10 @@ class ScreenMovie(LcarsScreen):
     ###### Screen Handling #####
 
     def mainHandler(self, item, event, clock):
-        self.player.stop()
+        try:
+            self.player.stop()
+        except:
+            pass
         from screens.base import ScreenBase
         self.loadScreen(ScreenBase())
 

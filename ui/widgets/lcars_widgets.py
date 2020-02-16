@@ -42,13 +42,20 @@ class LcarsTab(LcarsWidget):
 
     STYLE_LEFT = 1
     STYLE_RIGHT = 2
+    STYLE_SMALL_LEFT = 3
+    STYLE_SMALL_RIGHT = 4
     
     def __init__(self, colour, style, pos, handler=None):
         image = pygame.image.load("assets/tab4.png").convert_alpha()
 
         if (style == LcarsTab.STYLE_RIGHT):
             image = pygame.transform.flip(image, True, False)
-        
+        elif (style == LcarsTab.STYLE_SMALL_LEFT):
+            image=pygame.transform.rotozoom(image,0,.5)
+        elif (style == LcarsTab.STYLE_SMALL_RIGHT):
+            image=pygame.transform.rotozoom(image,0,.5)
+            image = pygame.transform.flip(image, True, False)
+
         size = (image.get_rect().width, image.get_rect().height)
         self.colour = colour
         self.currcolour=colour

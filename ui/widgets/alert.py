@@ -44,11 +44,12 @@ class inout_alert():
                 self.state=0            
         
 class red_alert():
-    def __init__(self,trigger,ui_list,stallframes=None):
+    def __init__(self,trigger,ui_list,stallframes=None,ra_colour=colours.RED5):
         self.RAstate=0
         self.frameCycle=0
         self.RAcycle=-1
         self.trigger=trigger
+        self.ra_colour=ra_colour
         
         if stallframes != None:
             totalFrames=len(ui_list)+len(stallframes)
@@ -88,7 +89,7 @@ class red_alert():
         if self.triggervalue==True:
             for sprite in self.ui_list:
                 if sprite.visible==True:
-                    sprite.changeColour(config.RACOLOUR)
+                    sprite.changeColour(self.ra_colour)
 
             self.RAcycle += 1
             if self.RAcycle >= len(self.ui_list):
