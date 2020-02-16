@@ -12,5 +12,7 @@ pillow <br>
 psutil <br>
 pygame <br>
 
+
 optional:<br>
-w1thermsensor
+w1thermsensor<br>
+omxplayer-wrapper <br>
