@@ -1,6 +1,8 @@
 #from screens.authorize import ScreenAuthorize
 #from screens.library import ScreenLibrary
-from screens.base import ScreenBase
+#from screens.base import ScreenBase
+from screens.movie import ScreenMovie
+
 from ui.ui import UserInterface
 import config
 from datetime import datetime
@@ -10,7 +12,7 @@ from datetime import datetime
 if __name__ == "__main__":
 #def main_loop():
 
-    firstScreen = ScreenBase()
+    firstScreen = ScreenMovie()
 
     ui = UserInterface(firstScreen, config.RESOLUTION, config.UI_PLACEMENT_MODE, config.FPS, config.DEV_MODE, config.SOUND)
 
