@@ -126,14 +126,15 @@ class LcarsText(LcarsWidget):
         self.colour = colour
         self.currcolour=colour
         self.background = background
-
+        self.togglevalue=False
         self.font=Font(fontFace,int(50.0 * size))        
         self.renderText(message)
         # center the text if needed 960 is based on total screen resolution. needs fix
         if (pos[1] < 0):
-            pos = (pos[0], 960 - self.image.get_rect().width / 2)
+            pos = (pos[0], (config.RESOLUTION[0]/2) - self.image.get_rect().width / 2)
             
         LcarsWidget.__init__(self, colour, pos, None, handler)
+        self.beep = Sound("assets/audio/panel/202.wav")
 
     def renderText(self, message):        
         if (self.background == None):
@@ -148,6 +149,19 @@ class LcarsText(LcarsWidget):
         if self.currcolour!=newColour:
             self.applyColour(newColour,self.currcolour)
             self.currcolour=newColour
+    
+    def handleEvent(self, event, clock):
+        if (event.type == MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos) and self.visible == True):
+            #if self.currcolour!=colours.WHITE:
+            #    self.applyColour(colours.WHITE,self.currcolour)
+            self.highlighted = True
+            self.beep.play()
+
+        if (event.type == MOUSEBUTTONUP and self.highlighted and self.visible == True):
+            #self.applyColour(self.currcolour,colours.WHITE)
+            self.togglevalue = not self.togglevalue
+           
+        return LcarsWidget.handleEvent(self, event, clock)
             
 class LcarsBlockLarge(LcarsButton):
     """Left navigation block - large version"""
