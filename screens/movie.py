@@ -16,6 +16,8 @@ import omxplayer.keys as omxkey
 
 from pathlib import Path
 
+import os
+
 class ScreenMovie(LcarsScreen):
     def setup(self, all_sprites):
 
@@ -38,7 +40,9 @@ class ScreenMovie(LcarsScreen):
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 863), "STOP",self.stopHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 1112), "BASE",self.mainHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(953, 1361), rectSize=(443, 77)), layer=1)
-        all_sprites.add(LcarsTab(colours.COM2, 2, (953, 1810)), layer=1)     
+        all_sprites.add(LcarsTab(colours.COM2, 2, (953, 1810)), layer=1)
+        self.fileList=LcarsTextBlock(colours.BLUE6,(94,116),self.dirlist(),rectSize=(1694,903))
+        all_sprites.add(self.fileList, Layer=1)
         self.VIDEO_1_PATH = "./assets/video/LittleShopofHorrors1960Color.mp4"
         self.playSpeed = 1
     	### sound effects
@@ -48,7 +52,13 @@ class ScreenMovie(LcarsScreen):
 
         ############ End base screen #############
        
-
+    def dirlist(self,dirPath='./assets/video'):
+        #os.scandir(dirPath)
+        file_names=[]
+        for item in os.scandir(dirPath):
+            if item.is_file() or item.is_dir(): 
+                file_names.append(item.name)
+        return file_names
 
     def update(self, screenSurface, fpsClock):
         if pygame.time.get_ticks() - self.lastClockUpdate > 500:
@@ -64,6 +74,8 @@ class ScreenMovie(LcarsScreen):
             return False
             
     def playHandler(self,item,event,clock):
+        self.VIDEO_1_PATH = './assets/video/'+self.fileList.get_state()
+        self.fileList.visible=False
         try:
             self.player.play_pause()
         except:
@@ -82,6 +94,7 @@ class ScreenMovie(LcarsScreen):
             pass
         
     def stopHandler(self,item,event,clock):
+        self.fileList.visible=True
         try:
             self.player.stop()
         except:
