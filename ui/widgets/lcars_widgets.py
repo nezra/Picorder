@@ -129,15 +129,7 @@ class LcarsText(LcarsWidget):
         self.background = background
         self.togglevalue=False
         self.font=Font(fontFace,int(50.0 * textSize))
-        if rectSize == None:
-            image = pygame.image.load("assets/button2.png").convert_alpha()
-            size = (image.get_rect().width, image.get_rect().height)
-        else:
-            size = rectSize
-            image = pygame.Surface(rectSize).convert_alpha()
-            image.fill(colour)
         self.renderText(message)
-        # center the text if needed 960 is based on total screen resolution. needs fix
         if (pos[1] < 0):
             pos = (pos[0], (config.RESOLUTION[0]/2) - self.image.get_rect().width / 2)
             
