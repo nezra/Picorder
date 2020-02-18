@@ -73,14 +73,6 @@ class LcarsWidget(pygame.sprite.DirtySprite):
         """Convert non-black areas of an image to specified colour"""
         pygame.transform.threshold(self.image,self.image,origcolour,(0,0,0,0),colour,1,None,True)
 
-#        for x in range(0, self.size[0]):
-#            for y in range(0, self.size[1]):
-#                pixelr = self.image.get_at((x, y)).r
-#                pixelg = self.image.get_at((x, y)).g
-#                pixelb = self.image.get_at((x, y)).b
-#                if (pixelr > 10 or pixelg > 10 or pixelb > 10):
-#                    self.image.set_at((x, y), colour)
-
 class LcarsMoveToMouse(LcarsWidget):
     """For testing purposes - move a small square to last clicked position"""
     def __init__(self, color):

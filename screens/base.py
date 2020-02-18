@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from ui.widgets.background import * #LcarsBackgroundImage, LcarsImage
+from ui.widgets.background import * 
 from ui.widgets.gifimage import LcarsGifImage
 from ui.widgets.lcars_widgets import *
 from ui.widgets.screen import LcarsScreen
