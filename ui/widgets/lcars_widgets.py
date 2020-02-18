@@ -76,7 +76,7 @@ class LcarsTab(LcarsWidget):
 class LcarsButton(LcarsWidget):
     """Button - either rounded or rectangular if rectSize is spcified"""
 
-    def __init__(self, colour, pos, text, handler=None, rectSize=None,textSize=1.0,fontFace="assets/OpenSansCondensed-Light.ttf"):
+    def __init__(self, colour, pos, text, handler=None, rectSize=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
         if rectSize == None:
             image = pygame.image.load("assets/button2.png").convert_alpha()
             size = (image.get_rect().width, image.get_rect().height)
@@ -123,7 +123,7 @@ class LcarsButton(LcarsWidget):
 class LcarsText(LcarsWidget):
     """Text that can be placed anywhere"""
 
-    def __init__(self, colour, pos, message, textSize=1.0, background=None, handler=None,fontFace="assets/OpenSansCondensed-Light.ttf"):
+    def __init__(self, colour, pos, message, textSize=.75, background=None, handler=None,fontFace="assets/OpenSansCondensed-Light.ttf"):
         self.colour = colour
         self.currcolour=colour
         self.background = background
@@ -166,7 +166,7 @@ class LcarsText(LcarsWidget):
 class LcarsBlockLarge(LcarsButton):
     """Left navigation block - large version"""
 
-    def __init__(self, colour, pos, text, handler=None,textSize=1.0,fontFace="assets/OpenSansCondensed-Light.ttf"):
+    def __init__(self, colour, pos, text, handler=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
         size = (243, 331)
         LcarsButton.__init__(self, colour, pos, text, handler, size,textSize,fontFace)
 
@@ -178,7 +178,7 @@ class LcarsBlockLarge(LcarsButton):
 class LcarsBlockMedium(LcarsButton):
     """Left navigation block - medium version"""
 
-    def __init__(self, colour, pos, text, handler=None,textSize=1.0,fontFace="assets/OpenSansCondensed-Light.ttf"):
+    def __init__(self, colour, pos, text, handler=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
         size = (243, 140)
         LcarsButton.__init__(self, colour, pos, text, handler, size,textSize,fontFace)
     
@@ -190,7 +190,7 @@ class LcarsBlockMedium(LcarsButton):
 class LcarsBlockSmall(LcarsButton):
     """Left navigation block - small version"""
 
-    def __init__(self, colour, pos, text, handler=None,textSize=1.0,fontFace="assets/OpenSansCondensed-Light.ttf"):
+    def __init__(self, colour, pos, text, handler=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
         self.colour=colour
         size = (243, 77)
         LcarsButton.__init__(self, colour, pos, text, handler, size, textSize,fontFace)
@@ -235,23 +235,22 @@ class LcarsTextBlock(LcarsWidget):
     def renderText(self, message):
         screen_height = self.image.get_height()
         max_file_width = 120
-        name_max = 64 # how many maximum characters a list name can be 
-        row=5 #Row Starting point
+        name_max = 64 
+        row=5 
         line_buffer=row
-        column=5 #column starting point
-        count=0 #counter to go until maximum line height
-        max_count=10 # 10 is my placeholder to resolve the chicken or the egg.
-        ## Place is the record its starting from. this must be self.place to cary overwritten
+        column=5 
+        count=0 
+        max_count=10 
         for line in message[self.place:]:
             count += 1
             self.place += 1
             self.marker += 1
-            if count >= max_count or self.place >= len(message): # max line count or end of list. needs to be fixed so that count is gone and replace by dimensions of text
+            if count >= max_count or self.place >= len(message): 
                 if (self.background == None):
                     ren = self.font.render(line, True, self.colour)
                 else:
                     ren = self.font.render(line, True, self.colour, self.background)
-                ren_rect = ren.get_rect() # this is called and then overwritten? what we can do is grab one and determine the maximum number we can fit in a space.
+                ren_rect = ren.get_rect()
                 ren_rect[0] = column
                 ren_rect[1] = row
                 self.textList.append((ren_rect, line))

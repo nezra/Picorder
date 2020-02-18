@@ -34,7 +34,7 @@ class LcarsImage(LcarsWidget):
         LcarsWidget.__init__(self, None, pos, None)
 
 class LcarsImageBlock(LcarsWidget):
-    def __init__(self, colour, pos, text=None, handler=None, rectSize=None):
+    def __init__(self, colour, pos, text=None, handler=None, rectSize=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
         size = rectSize
         image = pygame.Surface(rectSize).convert_alpha()
         image.fill(colour)
@@ -42,7 +42,7 @@ class LcarsImageBlock(LcarsWidget):
         self.currcolour=colour
         self.image = image
         if text != None:
-            font = Font(config.TTFFONT, int(config.TTFFONTBASE*config.FONTSCALE))
+            font=Font(fontFace,int(50.0 * textSize))
             textImage = font.render(text, False, colours.BLACK)
             image.blit(textImage,
                 (image.get_rect().width - textImage.get_rect().width-10,

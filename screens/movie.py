@@ -20,7 +20,6 @@ import os
 
 class ScreenMovie(LcarsScreen):
     def setup(self, all_sprites):
-
         ############ Start base screen #############
 
         ### BASE_ui
@@ -38,11 +37,24 @@ class ScreenMovie(LcarsScreen):
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 365), "PLAY",self.playHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 614), "F F",self.ffHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 863), "STOP",self.stopHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 1112), "BASE",self.mainHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 1112), "BASE",self.mainHandler,textSize=1, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(953, 1361), rectSize=(443, 77)), layer=1)
         all_sprites.add(LcarsTab(colours.COM2, 2, (953, 1810)), layer=1)
-        self.fileList=LcarsTextBlock(colours.BLUE6,(94,116),self.dirlist(),rectSize=(1694,903))
-        all_sprites.add(self.fileList, Layer=1)
+        
+        self.fileList=LcarsTextBlock(colours.BLUE6,(94,365),self.dirlist(),rectSize=(1694,903))
+        all_sprites.add(self.fileList, layer=3)
+        all_sprites.add(LcarsImageBlock(colours.BLUE2, pos=(94, 116), text="01-3906", rectSize=(243, 100)), layer=3)
+        all_sprites.add(LcarsImageBlock(colours.BLUE3, pos=(200, 116), text="96-4783", rectSize=(243, 500)), layer=3)
+        all_sprites.add(LcarsImageBlock(colours.BLUE4, pos=(706, 116), text="32-6487", rectSize=(243, 163)), layer=3)
+        all_sprites.add(LcarsElbow(colours.BLUE5, 0, (875, 116)), layer=3)
+        all_sprites.add(LcarsImageBlock(colours.BLUE4, pos=(904, 398), rectSize=(1074, 43)), layer=3)
+        all_sprites.add(LcarsImageBlock(colours.BLUE3, pos=(875, 1478), rectSize=(44, 72)), layer=3)
+        all_sprites.add(LcarsElbow(colours.BLUE5, 3, (875, 1528)), layer=3)
+        self.file_address = LcarsText(colours.BLACK, (900, 450), "NO MEDIA SELECTED",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf")
+        all_sprites.add(self.file_address, layer=3)
+        
+        self.list_block=all_sprites.get_sprites_from_layer(3)
+        
         self.VIDEO_1_PATH = "./assets/video/LittleShopofHorrors1960Color.mp4"
         self.playSpeed = 1
     	### sound effects
@@ -62,7 +74,11 @@ class ScreenMovie(LcarsScreen):
 
     def update(self, screenSurface, fpsClock):
         if pygame.time.get_ticks() - self.lastClockUpdate > 500:
-
+            if self.fileList.visible == True:
+                if self.fileList.get_state() == None:
+                    self.file_address.setText("NO MEDIA SELECTED")
+                else:
+                    self.file_address.setText(self.fileList.get_state())
             self.lastClockUpdate = pygame.time.get_ticks()
         LcarsScreen.update(self, screenSurface, fpsClock)
 
@@ -74,29 +90,34 @@ class ScreenMovie(LcarsScreen):
             return False
             
     def playHandler(self,item,event,clock):
-        self.VIDEO_1_PATH = './assets/video/'+self.fileList.get_state()
-        self.fileList.visible=False
         try:
             self.player.play_pause()
         except:
-            self.player = OMXPlayer(self.VIDEO_1_PATH, dbus_name='org.mpris.MediaPlayer2.omxplayer1')
-            self.player.set_aspect_mode('stretch')
-            self.player.set_video_pos(116, 94, 1804, 947)
-            self.player.set_alpha(255)
+            try:
+                self.VIDEO_1_PATH = './assets/video/'+self.fileList.get_state()
+                self.player = OMXPlayer(self.VIDEO_1_PATH, dbus_name='org.mpris.MediaPlayer2.omxplayer1')
+                self.player.set_aspect_mode('stretch')
+                self.player.set_video_pos(116, 94, 1804, 947)
+                self.player.set_alpha(255)
+                self.showhide(self.list_block)
+            except:
+                pass
             
     def rewHandler(self,item,event,clock):
-        self.player.action(omxkey.REWIND)
         try:
             self.player.action(omxkey.REWIND)
-            print("passed")
         except:
-            print("failed")
             pass
+
+    def showhide(self,listofitems):
+        for items in listofitems:
+            items.visible=not items.visible
         
     def stopHandler(self,item,event,clock):
-        self.fileList.visible=True
+        
         try:
             self.player.stop()
+            self.showhide(self.list_block)
         except:
             pass
         
