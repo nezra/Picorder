@@ -10,14 +10,13 @@ from datetime import datetime
 
 
 if __name__ == "__main__":
-#def main_loop():
+
 
     firstScreen = ScreenBase()
 
     ui = UserInterface(firstScreen, config.RESOLUTION, config.UI_PLACEMENT_MODE, config.FPS, config.DEV_MODE, config.SOUND)
-
     while (True):
         ui.tick()
 
-#cProfile.run("main_loop()")
+#cProfile.run("__main__")
 #c = input ("...")

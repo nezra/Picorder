@@ -37,11 +37,11 @@ class ScreenMovie(LcarsScreen):
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 365), "PLAY",self.playHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 614), "F F",self.ffHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 863), "STOP",self.stopHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 1112), "BASE",self.mainHandler,textSize=1, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (953, 1112), "BASE",self.mainHandler,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=2)
         all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(953, 1361), rectSize=(443, 77)), layer=1)
         all_sprites.add(LcarsTab(colours.COM2, 2, (953, 1810)), layer=1)
         
-        self.fileList=LcarsTextBlock(colours.BLUE6,(94,365),self.dirlist(),rectSize=(1694,903))
+        self.fileList=LcarsTextBlock(colours.BLUE6,(94,365),self.dirlist(),rectSize=(1694,781))
         all_sprites.add(self.fileList, layer=3)
         all_sprites.add(LcarsImageBlock(colours.BLUE2, pos=(94, 116), text="01-3906", rectSize=(243, 100)), layer=3)
         all_sprites.add(LcarsImageBlock(colours.BLUE3, pos=(200, 116), text="96-4783", rectSize=(243, 500)), layer=3)
@@ -55,8 +55,7 @@ class ScreenMovie(LcarsScreen):
         
         self.list_block=all_sprites.get_sprites_from_layer(3)
         
-        self.VIDEO_1_PATH = "./assets/video/LittleShopofHorrors1960Color.mp4"
-        self.playSpeed = 1
+        #self.VIDEO_1_PATH = "./assets/video/LittleShopofHorrors1960Color.mp4"
     	### sound effects
         self.beep1 = Sound("assets/audio/panel/201.wav")
         self.lastClockUpdate = 0

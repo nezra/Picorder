@@ -6,8 +6,10 @@ from ui.utils.sound import Sound
 from ui.widgets.sprite import LcarsWidget
 from ui import colours
 
+
 import config
 import math
+import builtins
 
 class LcarsElbow(LcarsWidget):
     """The LCARS corner elbow - not currently used"""
@@ -18,8 +20,8 @@ class LcarsElbow(LcarsWidget):
     STYLE_TOP_RIGHT = 3
     
     def __init__(self, colour, style, pos, handler=None):
-        image = pygame.image.load("assets/CornerLarge2.png").convert_alpha()
-
+        image = _elbowimage.copy()
+        #image = pygame.image.load("assets/CornerLarge2.png").convert_alpha()    
         if (style == LcarsElbow.STYLE_BOTTOM_LEFT):
             image = pygame.transform.flip(image, False, True)
         elif (style == LcarsElbow.STYLE_BOTTOM_RIGHT):
@@ -48,8 +50,8 @@ class LcarsTab(LcarsWidget):
     STYLE_SMALL_RIGHT = 4
     
     def __init__(self, colour, style, pos, handler=None):
-        image = pygame.image.load("assets/tab4.png").convert_alpha()
-
+        image = _tabimage.copy()
+        #image = pygame.image.load("assets/tab4.png").convert_alpha()
         if (style == LcarsTab.STYLE_RIGHT):
             image = pygame.transform.flip(image, True, False)
         elif (style == LcarsTab.STYLE_SMALL_LEFT):
@@ -77,9 +79,10 @@ class LcarsTab(LcarsWidget):
 class LcarsButton(LcarsWidget):
     """Button - either rounded or rectangular if rectSize is spcified"""
 
-    def __init__(self, colour, pos, text, handler=None, rectSize=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
+    def __init__(self, colour, pos, text, handler=None, rectSize=None,textSize=None,fontFace=None):
         if rectSize == None:
-            image = pygame.image.load("assets/button2.png").convert_alpha()
+            image = _buttonimage.copy()
+            #image = pygame.image.load("assets/button2.png").convert_alpha()
             size = (image.get_rect().width, image.get_rect().height)
         else:
             size = rectSize
@@ -89,8 +92,16 @@ class LcarsButton(LcarsWidget):
         self.colour = colour
         self.image = image
         self.togglevalue=False
-        font=Font(fontFace,int(50.0 * textSize))
-        textImage = font.render(text, False, colours.BLACK)
+        if textSize==None and fontFace == None:
+            self.font = _defaultbuttonfont
+        else:
+            if textSize==None:
+                textSize=.75
+            if fontFace==None:
+                fontFace="assets/OpenSansCondensed-Bold.ttf"
+            self.font=Font(fontFace,int(50.0 * textSize))
+            
+        textImage = self.font.render(text, False, colours.BLACK)
         image.blit(textImage, 
                 (image.get_rect().width - textImage.get_rect().width - 21,
                     image.get_rect().height - textImage.get_rect().height - 3))
@@ -124,12 +135,19 @@ class LcarsButton(LcarsWidget):
 class LcarsText(LcarsWidget):
     """Text that can be placed anywhere"""
 
-    def __init__(self, colour, pos, message, textSize=.75, background=None, handler=None,fontFace="assets/OpenSansCondensed-Light.ttf"):
+    def __init__(self, colour, pos, message, textSize=None, background=None, handler=None,fontFace=None): #textSize=.75 & fontFace="assets/OpenSansCondensed-Light.ttf"):
         self.colour = colour
         self.currcolour=colour
         self.background = background
         self.togglevalue=False
-        self.font=Font(fontFace,int(50.0 * textSize))
+        if textSize==None and fontFace == None:
+            self.font = _defaulttextfont
+        else:
+            if textSize==None:
+                textSize=.75
+            if fontFace==None:
+                fontFace="assets/OpenSansCondensed-Light.ttf"        
+            self.font=Font(fontFace,int(50.0 * textSize))
         self.renderText(message)
         if (pos[1] < 0):
             pos = (pos[0], (config.RESOLUTION[0]/2) - self.image.get_rect().width / 2)
@@ -153,10 +171,9 @@ class LcarsText(LcarsWidget):
     
     def handleEvent(self, event, clock):
         if (event.type == MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos) and self.visible == True):
-            self.highlighted = True
             self.beep.play()
 
-        if (event.type == MOUSEBUTTONUP and self.highlighted and self.visible == True):
+        if (event.type == MOUSEBUTTONUP and self.visible == True):
             self.togglevalue = not self.togglevalue
            
         return LcarsWidget.handleEvent(self, event, clock)
@@ -164,7 +181,7 @@ class LcarsText(LcarsWidget):
 class LcarsBlockLarge(LcarsButton):
     """Left navigation block - large version"""
 
-    def __init__(self, colour, pos, text, handler=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
+    def __init__(self, colour, pos, text, handler=None,textSize=None,fontFace=None):
         size = (243, 331)
         LcarsButton.__init__(self, colour, pos, text, handler, size,textSize,fontFace)
 
@@ -176,7 +193,7 @@ class LcarsBlockLarge(LcarsButton):
 class LcarsBlockMedium(LcarsButton):
     """Left navigation block - medium version"""
 
-    def __init__(self, colour, pos, text, handler=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
+    def __init__(self, colour, pos, text, handler=None,textSize=None,fontFace=None):
         size = (243, 140)
         LcarsButton.__init__(self, colour, pos, text, handler, size,textSize,fontFace)
     
@@ -188,7 +205,7 @@ class LcarsBlockMedium(LcarsButton):
 class LcarsBlockSmall(LcarsButton):
     """Left navigation block - small version"""
 
-    def __init__(self, colour, pos, text, handler=None,textSize=.75,fontFace="assets/OpenSansCondensed-Bold.ttf"):
+    def __init__(self, colour, pos, text, handler=None,textSize=None,fontFace=None):
         self.colour=colour
         size = (243, 77)
         LcarsButton.__init__(self, colour, pos, text, handler, size, textSize,fontFace)
@@ -282,10 +299,9 @@ class LcarsTextBlock(LcarsWidget):
             for item in self.textList:
                 if item[0].collidepoint(cursor):
                     self.item_selected=item[1]
-            self.highlighted = True
             self.beep.play()
 
-        if (event.type == MOUSEBUTTONUP and self.highlighted and self.visible == True):
+        if (event.type == MOUSEBUTTONUP and self.visible == True):
             pass
             
            

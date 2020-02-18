@@ -31,13 +31,13 @@ class ScreenLibrary(LcarsScreen):
         all_sprites.add(LcarsImageBlock(colours.OdyN[3], pos=(1037, 0), rectSize=(400, 43)), layer=1)
         all_sprites.add(LcarsElbow(colours.OdyN[3], 2, (1008, 400)), layer=1)
         all_sprites.add(LcarsImageBlock(colours.OdyN[3], pos=(937, 433), rectSize=(243, 71)), layer=1)
-        all_sprites.add(LcarsBlockSmall(colours.OdyN[1], (854, 433), "BASE",self.baseHandler, textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (771, 433), "FADE BUTTON",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (688, 433), "BLINK",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (605, 433), "FADE YELLOW",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (522, 433), "RED ALERT",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
-        all_sprites.add(LcarsBlockSmall(colours.nOffline, (439, 433), "ITEM",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=11)
-        self.coretemp = LcarsBlockSmall(colours.nOffline, (356, 433), "CORE TEMP",textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf")
+        all_sprites.add(LcarsBlockSmall(colours.OdyN[1], (854, 433), "BASE",self.baseHandler), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (771, 433), "FADE BUTTON"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (688, 433), "BLINK"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (605, 433), "FADE YELLOW"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (522, 433), "RED ALERT"), layer=11)
+        all_sprites.add(LcarsBlockSmall(colours.nOffline, (439, 433), "ITEM"), layer=11)
+        self.coretemp = LcarsBlockSmall(colours.nOffline, (356, 433), "CORE TEMP")
         all_sprites.add(self.coretemp, layer=11)
         
         all_sprites.add(LcarsElbow(colours.OdyN[3], 1, (278, 433)), layer=12)
@@ -45,10 +45,10 @@ class ScreenLibrary(LcarsScreen):
 
 
         ### buttons
-        all_sprites.add(LcarsButton(colours.OdyN[1], (25, 1675), "NOTHING", textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
-        all_sprites.add(LcarsButton(colours.OdyN[1], (127, 1675), "NOTHING", textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
-        all_sprites.add(LcarsButton(colours.OdyN[1], (25, 1432), "NOTHING", textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
-        all_sprites.add(LcarsButton(colours.OdyN[1], (127, 1432), "LOGOUT", self.logoutHandler ,textSize=.75, fontFace="assets/OpenSansCondensed-Bold.ttf"), layer=3)
+        all_sprites.add(LcarsButton(colours.OdyN[1], (25, 1675), "NOTHING"), layer=3)
+        all_sprites.add(LcarsButton(colours.OdyN[1], (127, 1675), "NOTHING"), layer=3)
+        all_sprites.add(LcarsButton(colours.OdyN[1], (25, 1432), "NOTHING"), layer=3)
+        all_sprites.add(LcarsButton(colours.OdyN[1], (127, 1432), "LOGOUT", self.logoutHandler), layer=3)
         
         ### junk 
         newtext=get_thread()

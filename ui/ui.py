@@ -1,7 +1,10 @@
 import pygame
 from pygame.locals import *
+from pygame.font import Font
 
 from ui.utils import sound
+
+import builtins
 
 class UserInterface:
     def __init__(self, screen, resolution=(800,480),
@@ -13,7 +16,7 @@ class UserInterface:
         sound.init(audio_params)
 
         self.screenSurface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
-        
+       
         self.fpsClock = pygame.time.Clock()
         self.fps = fps
         pygame.display.set_caption("LCARS")
@@ -21,11 +24,17 @@ class UserInterface:
             # see https://github.com/tobykurien/rpi_lcars/issues/9
             #pygame.mouse.set_visible(False)
             pygame.mouse.set_cursor((8,8),(0,0),(0,0,0,0,0,0,0,0),(0,0,0,0,0,0,0,0))
+            
+        ## Preload all images & default fonts for faster page flips. pages can make copies as needed
+        builtins._elbowimage = pygame.image.load("assets/CornerLarge2.png").convert_alpha()
+        builtins._tabimage = pygame.image.load("assets/tab4.png").convert_alpha()
+        builtins._buttonimage = pygame.image.load("assets/button2.png").convert_alpha()
+        builtins._defaulttextfont=Font("assets/OpenSansCondensed-Light.ttf",int(37.5))
+        builtins._defaultbuttonfont=Font("assets/OpenSansCondensed-Bold.ttf",int(37.5))        
         
         # set up screen elements
         self.all_sprites = pygame.sprite.LayeredDirty()
         self.all_sprites.UI_PLACEMENT_MODE = ui_placement_mode
-    
         self.screen = screen
         self.screen.setup(self.all_sprites)
         self.running = True
