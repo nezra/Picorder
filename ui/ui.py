@@ -14,8 +14,6 @@ class UserInterface:
 
         self.screenSurface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
         
-        self.imageelbow = pygame.image.load("assets/CornerLarge2.png").convert_alpha()
-
         self.fpsClock = pygame.time.Clock()
         self.fps = fps
         pygame.display.set_caption("LCARS")
