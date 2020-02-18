@@ -19,6 +19,7 @@ class LcarsElbow(LcarsWidget):
     
     def __init__(self, colour, style, pos, handler=None):
         image = pygame.image.load("assets/CornerLarge2.png").convert_alpha()
+
         if (style == LcarsElbow.STYLE_BOTTOM_LEFT):
             image = pygame.transform.flip(image, False, True)
         elif (style == LcarsElbow.STYLE_BOTTOM_RIGHT):
@@ -152,13 +153,10 @@ class LcarsText(LcarsWidget):
     
     def handleEvent(self, event, clock):
         if (event.type == MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos) and self.visible == True):
-            #if self.currcolour!=colours.WHITE:
-            #    self.applyColour(colours.WHITE,self.currcolour)
             self.highlighted = True
             self.beep.play()
 
         if (event.type == MOUSEBUTTONUP and self.highlighted and self.visible == True):
-            #self.applyColour(self.currcolour,colours.WHITE)
             self.togglevalue = not self.togglevalue
            
         return LcarsWidget.handleEvent(self, event, clock)
@@ -201,7 +199,7 @@ class LcarsBlockSmall(LcarsButton):
             self.currcolour=newColour
             
 class LcarsTextBlock(LcarsWidget):
-    """Text that can be placed anywhere"""
+    """Text list that can be placed anywhere"""
 
     def __init__(self, colour, pos, message, textSize=1.0, rectSize=(100,100), background=(0,0,0,0), handler=None, fontFace="assets/OpenSansCondensed-Light.ttf"):
         self.colour = colour

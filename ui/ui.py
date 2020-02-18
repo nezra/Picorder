@@ -3,7 +3,6 @@ from pygame.locals import *
 
 from ui.utils import sound
 
-
 class UserInterface:
     def __init__(self, screen, resolution=(800,480),
                  ui_placement_mode=False, fps=60, dev_mode=False, audio=True,
@@ -14,6 +13,9 @@ class UserInterface:
         sound.init(audio_params)
 
         self.screenSurface = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+        
+        self.imageelbow = pygame.image.load("assets/CornerLarge2.png").convert_alpha()
+
         self.fpsClock = pygame.time.Clock()
         self.fps = fps
         pygame.display.set_caption("LCARS")

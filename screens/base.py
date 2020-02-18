@@ -69,20 +69,11 @@ class ScreenBase(LcarsScreen):
         self.lastClockUpdate = 0
         all_sprites.add(self.stardate, layer=1)
 
-        all_sprites.add(LcarsGifImage("assets/gadgets/stlogorotating2.gif", (500, 800), 50),layer=1)
-
         ###
 
-        ### Group UI 
+	    ### Side buttons
 
-
-
-        
-        ###
-
-	### Side buttons
-
-	## uses layers 2
+	    ## uses layers 2
 
         all_sprites.add(LcarsBlockSmall(colours.COM1, (253, 39), "MAIN",self.mainHandler), layer=2)
         self.tab1 = LcarsTab(colours.COM1, 2, (253, 288), self.mainHandler)
@@ -95,7 +86,7 @@ class ScreenBase(LcarsScreen):
         all_sprites.add(LcarsTab(colours.COM2, 2, (502, 288)), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (585, 39), "TOGGLE 2"), layer=2)
         all_sprites.add(LcarsTab(colours.COM2, 2, (585, 288)), layer=2)
-        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (668, 39), "ITEM"), layer=2)
+        all_sprites.add(LcarsBlockSmall(colours.BLUE6, (668, 39), "MEDIA",self.mediaHandler), layer=2)
         all_sprites.add(LcarsTab(colours.COM2, 2, (668, 288)), layer=2)
         all_sprites.add(LcarsBlockSmall(colours.BLUE6, (751, 39), "ITEM"), layer=2)
         all_sprites.add(LcarsTab(colours.COM2, 2, (751, 288)), layer=2)
@@ -103,8 +94,6 @@ class ScreenBase(LcarsScreen):
         all_sprites.add(LcarsTab(colours.COM2, 2, (834, 288)), layer=2)
 
         all_sprites.add(LcarsImageBlock(colours.BLUE5, pos=(917, 39), rectSize=(243, 58)), layer=2) ### buffer to fill out the column
-
-
 
         ###
 
@@ -156,6 +145,10 @@ class ScreenBase(LcarsScreen):
             sprite.visible = True
 
     ###### Screen Handling #####
+    
+    def mediaHandler(self, item, event, clock):
+        from screens.movie import ScreenMovie
+        self.loadScreen(ScreenMovie())
 
     def mainHandler(self, item, event, clock):
         from screens.main import ScreenMain
